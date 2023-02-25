@@ -567,10 +567,11 @@ self.unlinkFile = async filename => {
   }
 }
 
-self.bulkDeleteFromDb = async (field, values, user) => {
-  // Always return an empty array on failure
-  if (!user || !['id', 'name'].includes(field) || !values.length) {
-    return []
+self.bulkDeleteFromDb = async (field, values = [], user, permissionBypass = false) => {
+  // NOTE: permissionBypass should not be set unless used by lolisafe's automated service.
+
+  if ((!user && !permissionBypass) || !['id', 'name'].includes(field) || !values.length) {
+    return values
   }
 
   // SQLITE_LIMIT_VARIABLE_NUMBER, which defaults to 999
@@ -582,7 +583,7 @@ self.bulkDeleteFromDb = async (field, values, user) => {
   }
 
   const failed = []
-  const ismoderator = perms.is(user, 'moderator')
+  const ismoderator = permissionBypass || perms.is(user, 'moderator')
 
   try {
     const unlinkeds = []
@@ -717,7 +718,6 @@ self.bulkDeleteExpired = async (dryrun, verbose) => {
   const timestamp = Date.now() / 1000
   const fields = ['id']
   if (verbose) fields.push('name')
-  const sudo = { username: 'root' }
 
   const result = {}
   result.expired = await self.db.table('files')
@@ -728,7 +728,8 @@ self.bulkDeleteExpired = async (dryrun, verbose) => {
     // Make a shallow copy
     const field = fields[0]
     const values = result.expired.slice().map(row => row[field])
-    result.failed = await self.bulkDeleteFromDb(field, values, sudo)
+    // NOTE: 4th parameter set to true to bypass permission check
+    result.failed = await self.bulkDeleteFromDb(field, values, null, true)
     if (verbose && result.failed.length) {
       result.failed = result.failed
         .map(failed => result.expired.find(file => file[fields[0]] === failed))
