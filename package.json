@@ -19,7 +19,7 @@
     "pm2": "env NODE_ENV=production pm2 start ./lolisafe.js",
     "lint": "gulp lint",
     "build": "gulp default",
-    "dev": "env NODE_ENV=development node ./lolisafe.js",
+    "dev": "env NODE_ENV=development gulp build-dev && env NODE_ENV=development node ./lolisafe.js",
     "dev:reload": "env NODE_ENV=development gulp watch",
     "migrate": "node ./scripts/migrate.js",
     "bump-versions": "node ./scripts/bump-versions.js",
