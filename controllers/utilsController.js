@@ -364,6 +364,12 @@ self.mask = string => {
   }
 }
 
+self.pathSafeIp = ip => {
+  // Mainly intended for IPv6 addresses
+  if (!ip) return ''
+  return ip.replace(/:/g, '-')
+}
+
 self.filterUniquifySqlArray = (value, index, array) => {
   return value !== null &&
     value !== undefined &&

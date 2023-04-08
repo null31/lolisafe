@@ -372,7 +372,7 @@ self.actuallyUpload = async (req, res, data = {}) => {
     const isChunk = typeof req.body.uuid === 'string' && Boolean(req.body.uuid)
     if (isChunk) {
       // Re-map UUID property to IP-specific UUID
-      const uuid = `${req.ip}_${req.body.uuid}`
+      const uuid = `${utils.pathSafeIp(req.ip)}_${req.body.uuid}`
       // Calling initChunks() will also reset the chunked uploads' timeout
       file.chunksData = await initChunks(uuid)
       file.filename = file.chunksData.filename
@@ -759,7 +759,7 @@ self.finishChunks = async (req, res) => {
 
   // Re-map UUID property to IP-specific UUID
   files.forEach(file => {
-    file.uuid = `${req.ip}_${file.uuid}`
+    file.uuid = `${utils.pathSafeIp(req.ip)}_${file.uuid}`
     file.chunksData = chunksData[file.uuid]
   })
 
