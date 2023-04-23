@@ -48,7 +48,7 @@ Please make sure your config matches the sample in `config.sample.js` before sta
 
 ## Running in production mode
 
-1. Ensure you have at least [Node.js](https://nodejs.org/en/download/) v14.21.1 or newer, and [Yarn](https://yarnpkg.com/getting-started/install#install-corepack) v1.x installed.
+1. Ensure you have at least [Node.js](https://nodejs.org/en/download/) v16.x or newer, and [Yarn](https://yarnpkg.com/getting-started/install#install-corepack) v1.x installed.
 
 > **Note**  
 > Fully compatible up to Node.js v18.x.  
