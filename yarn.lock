@@ -1521,7 +1521,14 @@ cosmiconfig@^8.1.3:
     parse-json "^5.0.0"
     path-type "^4.0.0"
 
-cross-spawn@^7.0.2:
+cross-env@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
+  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
+cross-spawn@^7.0.1, cross-spawn@^7.0.2:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
   integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
@@ -3167,10 +3174,10 @@ https-proxy-agent@^5.0.0:
     agent-base "6"
     debug "4"
 
-hyper-express@=6.5.11:
-  version "6.5.11"
-  resolved "https://registry.yarnpkg.com/hyper-express/-/hyper-express-6.5.11.tgz#cceea93f0fcfd744b40f44bbd2bb8138031f9808"
-  integrity sha512-zfhF+YPpNNPA57OhH7avQoxVEu8hKmHoT1MsQXx40HD6ADI9x3kmyudRyraJQfndvouyM9Hd9cnClu+dDdc3uw==
+hyper-express@=6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/hyper-express/-/hyper-express-6.6.0.tgz#7a59bca4ae5925533af72e1390826d3801b4d26c"
+  integrity sha512-cLQxdYPjKpObILCz1dnM3ZGc1gM3DQItWXXU3/CorPstfSJZxof6XB8b7TsrCe/pL7hlYNE292H6wHkg61zyfg==
   dependencies:
     "@types/busboy" "^0.3.1"
     "@types/express" "^4.17.13"
@@ -3183,7 +3190,7 @@ hyper-express@=6.5.11:
     range-parser "^1.2.1"
     type-is "^1.6.18"
     typed-emitter "^2.1.0"
-    uWebSockets.js "github:uNetworking/uWebSockets.js#v20.24.0"
+    uWebSockets.js "github:uNetworking/uWebSockets.js#v20.25.0"
 
 ieee754@^1.1.13:
   version "1.2.1"
@@ -6424,9 +6431,9 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-"uWebSockets.js@github:uNetworking/uWebSockets.js#v20.24.0":
-  version "20.24.0"
-  resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/6545da07696855e77de1480d5b55bb661746ddd3"
+"uWebSockets.js@github:uNetworking/uWebSockets.js#v20.25.0":
+  version "20.25.0"
+  resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/e6ecc2102d68d99dc35969b0898fbd201e0f252b"
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
