@@ -399,15 +399,30 @@ self.assertJSON = async (req, res) => {
 
 self.generateThumbs = async (name, extname, force) => {
   extname = extname.toLowerCase()
-  const thumbname = path.join(paths.thumbs, name.slice(0, -extname.length) + '.png')
+  const thumbname = name.slice(0, -extname.length)
+  let thumbext = '.png'
+  if (extname === '.gif' && config.uploads.generateThumbs.animated) {
+    thumbext = '.gif'
+  }
+
+  const thumbfile = path.join(paths.thumbs, thumbname + thumbext)
 
   try {
+    // Check if old static thumbnail exists, then unlink it
+    if (thumbext === '.gif') {
+      const staticthumb = path.join(paths.thumbs, thumbname + '.png')
+      const stat = await jetpack.inspectAsync(staticthumb)
+      if (stat) {
+        await jetpack.removeAsync(staticthumb)
+      }
+    }
+
     // Check if thumbnail already exists
-    const stat = await jetpack.inspectAsync(thumbname)
+    const stat = await jetpack.inspectAsync(thumbfile)
     if (stat) {
       if (stat.type === 'symlink') {
         // Unlink if symlink (should be symlink to the placeholder)
-        await jetpack.removeAsync(thumbname)
+        await jetpack.removeAsync(thumbfile)
       } else if (!force) {
         // Continue only if it does not exist, unless forced to
         return true
@@ -419,6 +434,11 @@ self.generateThumbs = async (name, extname, force) => {
 
     // If image extension
     if (Constants.IMAGE_EXTS.includes(extname)) {
+      const sharpOptions = {}
+      if (thumbext === '.gif') {
+        sharpOptions.animated = true
+      }
+
       const resizeOptions = {
         width: self.thumbsSize,
         height: self.thumbsSize,
@@ -430,15 +450,17 @@ self.generateThumbs = async (name, extname, force) => {
           alpha: 0
         }
       }
-      const image = sharp(input)
+
+      const image = sharp(input, sharpOptions)
+
       const metadata = await image.metadata()
       if (metadata.width > resizeOptions.width || metadata.height > resizeOptions.height) {
         await image
           .resize(resizeOptions)
-          .toFile(thumbname)
+          .toFile(thumbfile)
       } else if (metadata.width === resizeOptions.width && metadata.height === resizeOptions.height) {
         await image
-          .toFile(thumbname)
+          .toFile(thumbfile)
       } else {
         const x = resizeOptions.width - metadata.width
         const y = resizeOptions.height - metadata.height
@@ -450,7 +472,7 @@ self.generateThumbs = async (name, extname, force) => {
             right: Math.ceil(x / 2),
             background: resizeOptions.background
           })
-          .toFile(thumbname)
+          .toFile(thumbfile)
       }
     } else if (Constants.VIDEO_EXTS.includes(extname)) {
       const metadata = await self.ffprobe(input)
@@ -486,7 +508,7 @@ self.generateThumbs = async (name, extname, force) => {
           // Sometimes FFMPEG would throw errors but actually somehow succeeded in making the thumbnails
           // (this could be a fallback mechanism of fluent-ffmpeg library instead)
           // So instead we check if the thumbnail exists to really make sure
-          if (await jetpack.existsAsync(thumbname)) {
+          if (await jetpack.existsAsync(thumbfile)) {
             return true
           } else {
             throw error || new Error('FFMPEG exited with empty output file')
@@ -497,9 +519,9 @@ self.generateThumbs = async (name, extname, force) => {
     }
   } catch (error) {
     logger.error(`[${name}]: generateThumbs(): ${error.toString().trim()}`)
-    await jetpack.removeAsync(thumbname) // try to unlink incomplete thumbs first
+    await jetpack.removeAsync(thumbfile) // try to unlink incomplete thumbs first
     try {
-      await jetpack.symlinkAsync(paths.thumbPlaceholder, thumbname)
+      await jetpack.symlinkAsync(paths.thumbPlaceholder, thumbfile)
       return true
     } catch (err) {
       logger.error(`[${name}]: generateThumbs(): ${err.toString().trim()}`)

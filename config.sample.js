@@ -602,6 +602,9 @@ module.exports = {
     generateThumbs: {
       image: true,
       video: true,
+      // Generate animated thumbnails wherever applicable.
+      // For now will only work with GIF images, also depends on "image" option being enabled.
+      animated: true,
       // Placeholder defaults to 'public/images/unavailable.png'.
       placeholder: null,
       size: 200,
