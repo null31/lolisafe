@@ -59,7 +59,9 @@ routes.get('/a/:identifier', async (req, res) => {
 
     file.extname = path.extname(file.name)
     if (utils.mayGenerateThumb(file.extname)) {
-      file.thumb = `thumbs/${file.name.slice(0, -file.extname.length)}.png`
+      let thumbext = '.png'
+      if (utils.isAnimatedThumb(file.extname)) thumbext = '.gif'
+      file.thumb = `thumbs/${file.name.slice(0, -file.extname.length)}${thumbext}`
       // If thumbnail for album is still not set, set it to current file's full URL.
       // A potential improvement would be to let the user set a specific image as an album cover.
       if (!album.thumb) album.thumb = file.name

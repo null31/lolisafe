@@ -1810,9 +1810,7 @@ self.list = async (req, res) => {
     file.extname = utils.extname(file.name)
     if (utils.mayGenerateThumb(file.extname)) {
       let thumbext = '.png'
-      if (file.extname === '.gif' && config.uploads.generateThumbs.animated) {
-        thumbext = '.gif'
-      }
+      if (utils.isAnimatedThumb(file.extname)) thumbext = '.gif'
       file.thumb = `thumbs/${file.name.slice(0, -file.extname.length)}${thumbext}`
     }
   }

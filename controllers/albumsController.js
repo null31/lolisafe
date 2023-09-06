@@ -498,10 +498,14 @@ self.get = async (req, res) => {
 
     const extname = utils.extname(file.name)
     if (utils.mayGenerateThumb(extname)) {
-      file.thumb = `${config.domain}/thumbs/${file.name.slice(0, -extname.length)}.png`
+      let thumbext = '.png'
+      if (utils.isAnimatedThumb(extname)) thumbext = '.gif'
+      file.thumb = `${config.domain}/thumbs/${file.name.slice(0, -extname.length)}${thumbext}`
+      /* // TODO: Upstream's API response is no longer identical to this.
       if (req.locals.upstreamCompat) {
         file.thumbSquare = file.thumb
       }
+      */
     }
   }
 
@@ -519,6 +523,7 @@ self.getUpstreamCompat = async (req, res) => {
   // If requested via /api/album/:identifier,
   // map to .get() with chibisafe/upstream compatibility
   // This API is known to be used in Pitu/Magane
+  // TODO: Upstream's API response is no longer identical to this, please fix.
   req.locals.upstreamCompat = true
 
   res._json = res.json

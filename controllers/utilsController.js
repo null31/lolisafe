@@ -251,6 +251,11 @@ self.mayGenerateThumb = extname => {
     (config.uploads.generateThumbs.video && Constants.VIDEO_EXTS.includes(extname))
 }
 
+self.isAnimatedThumb = extname => {
+  extname = extname.toLowerCase()
+  return (config.uploads.generateThumbs.animated && Constants.ANIMATED_EXTS.includes(extname))
+}
+
 // Expand if necessary (should be case-insensitive)
 const extPreserves = [
   /\.tar\.\w+/i // tarballs
@@ -401,9 +406,7 @@ self.generateThumbs = async (name, extname, force) => {
   extname = extname.toLowerCase()
   const thumbname = name.slice(0, -extname.length)
   let thumbext = '.png'
-  if (extname === '.gif' && config.uploads.generateThumbs.animated) {
-    thumbext = '.gif'
-  }
+  if (self.isAnimatedThumb(extname)) thumbext = '.gif'
 
   const thumbfile = path.join(paths.thumbs, thumbname + thumbext)
 
