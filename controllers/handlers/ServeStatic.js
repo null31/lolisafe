@@ -160,6 +160,9 @@ class ServeStatic {
 
   // As route handler function for HyperExpress.any()
   async #handler (req, res) {
+    // Skip already-handled requests.
+    if (!res || res.headersSent) return
+
     if (this.#options.ignorePatterns && this.#options.ignorePatterns.some(pattern => req.path.startsWith(pattern))) {
       return errors.handleNotFound(req, res)
     }

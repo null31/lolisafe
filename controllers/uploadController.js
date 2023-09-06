@@ -411,7 +411,7 @@ self.actuallyUpload = async (req, res, data = {}) => {
         hashStream.once('error', _reject)
 
         // Ensure readStream will only be resumed later down the line by readStream.pipe()
-        readStream.pause()
+        // TODO: readStream.pause()
         readStream.on('data', data => {
           // .dispose() will destroy this internal component,
           // so use it as an indicator of whether the hashStream has been .dispose()'d

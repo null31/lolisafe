@@ -29,6 +29,9 @@ const dist = process.env.NODE_ENV === 'development'
   ? path.join(__dirname, 'dist-dev')
   : path.join(__dirname, 'dist')
 
+// Ensure dist directory exists.
+jetpack.dir(dist)
+
 const postcssPlugins = [
   postcssPresetEnv()
 ]
