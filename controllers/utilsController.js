@@ -292,56 +292,30 @@ self.extname = (filename, lower) => {
   return lower ? str.toLowerCase() : str
 }
 
+const escapeMap = {
+  '&': '&amp;',
+  '"': '&quot;',
+  '\'': '&#39;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '\\': '&#92;'
+}
+
+const escapeRegex = /[&"'<>\\]/g
+
+const unescapeMap = Object.keys(escapeMap).reduce((ret, key) => {
+  ret[escapeMap[key]] = key
+  return ret
+}, {})
+
+const unescapeRegex = /&(amp|quot|#39|lt|gt|#92);/g
+
 self.escape = string => {
-  // MIT License
-  // Copyright(c) 2012-2013 TJ Holowaychuk
-  // Copyright(c) 2015 Andreas Lubbe
-  // Copyright(c) 2015 Tiancheng "Timothy" Gu
+  return string.replace(escapeRegex, key => escapeMap[key])
+}
 
-  if (!string) return string
-
-  const str = String(string)
-  const match = /["'&<>]/.exec(str)
-
-  if (!match) return str
-
-  let escape
-  let html = ''
-  let index = 0
-  let lastIndex = 0
-
-  for (index = match.index; index < str.length; index++) {
-    switch (str.charCodeAt(index)) {
-      case 34: // "
-        escape = '&quot;'
-        break
-      case 38: // &
-        escape = '&amp;'
-        break
-      case 39: // '
-        escape = '&#39;'
-        break
-      case 60: // <
-        escape = '&lt;'
-        break
-      case 62: // >
-        escape = '&gt;'
-        break
-      default:
-        continue
-    }
-
-    if (lastIndex !== index) {
-      html += str.substring(lastIndex, index)
-    }
-
-    lastIndex = index + 1
-    html += escape
-  }
-
-  return lastIndex !== index
-    ? html + str.substring(lastIndex, index)
-    : html
+self.unescape = string => {
+  return string.replace(unescapeRegex, key => unescapeMap[key])
 }
 
 self.stripIndents = string => {

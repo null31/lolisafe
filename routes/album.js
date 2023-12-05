@@ -23,6 +23,7 @@ routes.get('/a/:identifier', async (req, res) => {
     return errors.handleNotFound(req, res)
   }
 
+  album.name = utils.unescape(album.name)
   const nojs = req.query_parameters.nojs !== undefined
 
   let cacheid
@@ -32,7 +33,8 @@ routes.get('/a/:identifier', async (req, res) => {
 
     const cache = utils.albumRenderStore.get(cacheid)
     if (cache) {
-      return res.type('html').send(cache)
+      res.header('Content-Type', 'text/html; charset=utf-8')
+      return res.send(cache)
     } else if (cache === null) {
       return res.render('album-notice', {
         config,

@@ -452,7 +452,7 @@ self.edit = async (req, res) => {
       identifier: update.identifier
     })
   } else {
-    return res.json({ success: true, name })
+    return res.json({ success: true, name: utils.unescape(name) })
   }
 }
 
