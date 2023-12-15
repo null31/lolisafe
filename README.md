@@ -39,7 +39,7 @@ Chibisafe is an upstream rewrite & rebrand, and technically is lolisafe v4.
 
 If you want to use an existing lolisafe v3 database with this fork, copy over `database/db` file from your previous installation, then run `yarn migrate` at least once to create the new database columns introduced in this fork (don't forget to make a backup).
 
-> **Warning**  
+> [!CAUTION]  
 > The migration script is **NOT COMPATIBLE** with Chibisafe's database.
 
 Configuration file of lolisafe v3 (`config.js`) is also NOT fully compatible with this fork. There are some options that had been renamed and/or restructured
@@ -50,7 +50,7 @@ Please make sure your config matches the sample in `config.sample.js` before sta
 
 1. Ensure you have at least [Node.js](https://nodejs.org/en/download/) v18.x or newer, and [Yarn](https://yarnpkg.com/getting-started/install#install-corepack) v1.x installed (incompatible with Yarn v2.x).
 
-> **Note**  
+> [!NOTE]  
 > Compatible up to Node.js v20.x.  
 > I recommend using [Volta](https://github.com/volta-cli/volta) to ensure you will always have & use the correct Node.js and Yarn versions for lolisafe, even if the requirements change in future updates.  
 >
@@ -64,7 +64,7 @@ Please make sure your config matches the sample in `config.sample.js` before sta
 7. Run `yarn install --production` to install all production dependencies.
 8. Run `yarn start` to start lolisafe.
 
-> **Note**  
+> [!IMPORTANT]  
 > Default admin/root account:  
 > Username: `root`  
 > Password: `changeme`
@@ -90,7 +90,7 @@ This is to ensure that your IDE's Git extension will not unnecessarily rebuild d
 
 Once you feel like your modifications are ready for production usage, you can then run `yarn build` to build production-ready files that will actually go to `dist` directory.
 
-> **Note**  
+> [!TIP]  
 > If you are submitting a Pull Request, please do not stage any changes to files in `dist` directory.  
 > GitHub Actions will automatically rebuild those assets if and when required.
 
