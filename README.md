@@ -62,14 +62,15 @@ Please make sure your config matches the sample in `config.sample.js` before sta
 5. Copy `views/_globals.sample.njk` as `views/_globals.njk`.
 6. Modify front-end strings and options if desired.
 7. Run `yarn install --production` to install all production dependencies.
-8. Run `yarn start` to start lolisafe.
+8. Run `yarn start` to start lolisafe. Alternatively, you can also start lolisafe with `yarn pm2` if you have [PM2](https://pm2.keymetrics.io/) installed.
+
+> [!NOTE]  
+> If you see errors related to [sharp](https://github.com/lovell/sharp) engines upon starting lolisafe, try to run `yarn install --production --ignore-engines` first.
 
 > [!IMPORTANT]  
 > Default admin/root account:  
 > Username: `root`  
 > Password: `changeme`
-
-You can also start it with `yarn pm2` if you have [PM2](https://pm2.keymetrics.io/).
 
 When running in production mode, lolisafe will use pre-built client-side CSS/JS files from `dist` directory, while the actual source codes are in `src` directory.
 
